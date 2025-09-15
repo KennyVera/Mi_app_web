@@ -5,6 +5,276 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>JobFinder - Dashboard de Búsqueda</title>
 <style>
+    /* Additional Settings Styles */
+.export-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.text-size-options {
+    display: flex;
+    gap: 15px;
+}
+
+.text-size-option {
+    padding: 10px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.text-size-option:hover {
+    border-color: #3b82f6;
+}
+
+.text-size-option.active {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+}
+
+.text-size-name {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.color-options {
+    display: flex;
+    gap: 15px;
+}
+
+.color-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.color-option:hover {
+    border-color: #3b82f6;
+}
+
+.color-option.active {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+}
+
+.color-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 8px;
+}
+
+.blue-theme {
+    background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+}
+
+.purple-theme {
+    background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+}
+
+.green-theme {
+    background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+}
+
+.orange-theme {
+    background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+}
+
+.color-name {
+    font-weight: 500;
+    color: #1e293b;
+    font-size: 14px;
+}
+
+/* Toggle switch styles */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cbd5e1;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+/* Privacy option styles */
+.privacy-option {
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.privacy-option:last-child {
+    border-bottom: none;
+}
+
+.privacy-title {
+    display: block;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.privacy-description {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 10px;
+}
+
+.privacy-button {
+    padding: 8px 16px;
+    background: #f1f5f9;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.privacy-button:hover {
+    background: #e5e7eb;
+}
+
+.privacy-button.danger {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+.privacy-button.danger:hover {
+    background: #fee2e2;
+}
+
+/* Theme option styles */
+.theme-options {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.theme-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.theme-option:hover {
+    border-color: #3b82f6;
+}
+
+.theme-option.active {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+}
+
+.theme-preview {
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #e2e8f0;
+}
+
+.light-theme {
+    background: linear-gradient(to bottom, #f8fafc 50%, #3b82f6 50%);
+}
+
+.dark-theme {
+    background: linear-gradient(to bottom, #1e293b 50%, #3b82f6 50%);
+}
+
+.auto-theme {
+    background: linear-gradient(to right, #f8fafc 50%, #1e293b 50%);
+}
+
+.theme-name {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+/* Density option styles */
+.density-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.density-option {
+    padding: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.density-option:hover {
+    border-color: #3b82f6;
+}
+
+.density-option.active {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+}
+
+.density-name {
+    display: block;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.density-description {
+    font-size: 14px;
+    color: #64748b;
+}
         * {
             margin: 0;
             padding: 0;
@@ -31,6 +301,276 @@
             z-index: 100;
         }
 
+        /* Settings specific styles Inicia */
+        /* Settings specific styles */
+.settings-categories {
+    padding: 10px 0;
+}
+
+.settings-category {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    margin-bottom: 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #64748b;
+}
+
+.settings-category:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.settings-category.active {
+    background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+    color: white;
+}
+
+.category-icon {
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.category-name {
+    font-weight: 500;
+}
+
+.settings-content {
+    display: none;
+}
+
+.settings-content.active {
+    display: block;
+}
+
+.settings-group {
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.settings-group:last-child {
+    border-bottom: none;
+}
+
+.settings-group-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 20px;
+}
+
+.toggle-setting {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.toggle-setting:last-child {
+    border-bottom: none;
+}
+
+.toggle-info {
+    flex: 1;
+}
+
+.toggle-title {
+    display: block;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.toggle-description {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #cbd5e1;
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.privacy-option {
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.privacy-option:last-child {
+    border-bottom: none;
+}
+
+.privacy-title {
+    display: block;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.privacy-description {
+    display: block;
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 10px;
+}
+
+.privacy-button {
+    padding: 8px 16px;
+    background: #f1f5f9;
+    color: #374151;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+   
+.privacy-button:hover {
+    background: #e5e7eb;
+}
+
+.privacy-button.danger {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fecaca;
+}
+
+.privacy-button.danger:hover {
+    background: #fee2e2;
+}
+
+.theme-options {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.theme-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.theme-option:hover {
+    border-color: #3b82f6;
+}
+
+.theme-option.active {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+}
+
+.theme-preview {
+    width: 80px;
+    height: 60px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 2px solid #e2e8f0;
+}
+
+.light-theme {
+    background: linear-gradient(to bottom, #f8fafc 50%, #3b82f6 50%);
+}
+
+.dark-theme {
+    background: linear-gradient(to bottom, #1e293b 50%, #3b82f6 50%);
+}
+
+.auto-theme {
+    background: linear-gradient(to right, #f8fafc 50%, #1e293b 50%);
+}
+
+.theme-name {
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.density-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.density-option {
+    padding: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.density-option:hover {
+    border-color: #3b82f6;
+}
+
+.density-option.active {
+    border-color: #3b82f6;
+    background: #f0f9ff;
+}
+
+.density-name {
+    display: block;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.density-description {
+    font-size: 14px;
+    color: #64748b;
+}
+      /* termina*/
+        
         .sidebar-header {
             padding: 24px;
             border-bottom: 1px solid #e2e8f0;
@@ -1430,6 +1970,8 @@
             transform: translateY(-1px);
         }
 
+        
+
         /* Compact View */
         .job-card.compact {
             padding: 16px;
@@ -1490,6 +2032,7 @@
                 grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             }
         }
+        
 
         @media (max-width: 768px) {
             .sidebar {
@@ -1547,6 +2090,7 @@
             .recommendations-grid {
                 grid-template-columns: 1fr;
             }
+            
         }
     </style>
 </head>
@@ -1591,15 +2135,10 @@
 <div class="nav-item" data-view="applications">
 <div class="nav-item-content">
 <span>📋</span>
-<span>Aplicaciones</span>
+<span>Ofertas postuladas</span>
 </div>
 </div>
-<div class="nav-item" data-view="graduates">
-<div class="nav-item-content">
-<span>🎓</span>
-<span>Graduados</span>
-</div>
-</div><div class="nav-item" data-view="settings">
+<div class="nav-item" data-view="settings">
 <div class="nav-item-content">
 <span>⚙️</span>
 <span>Configuración</span>
@@ -2180,31 +2719,322 @@
 </div>
 </div>
 <!-- Applications View -->
+<!-- Applications View -->
 <div class="view-section" id="applicationsView">
-<div class="results-area">
-<div class="results-header">
-<h3 class="results-title">Aplicaciones</h3>
-<p class="results-count">Estado de tus postulaciones</p>
-</div>
-</div>
+    <div class="content-wrapper">
+        <!-- Filters Panel -->
+        <div class="filters-panel">
+            <div class="filters-header">
+                <span>🔧</span>
+                <h3 class="filters-title">Filtros</h3>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Buscar aplicaciones</label>
+                <div class="input-with-icon">
+                    <span class="input-icon">🔍</span>
+                    <input class="filter-input" id="applicationSearch" placeholder="Título, empresa..." type="text"/>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Estado</label>
+                <div class="input-with-icon">
+                    <span class="input-icon">📊</span>
+                    <select class="filter-input" id="statusFilterApp">
+                        <option value="">Todos los estados</option>
+                        <option value="pending">Pendiente</option>
+                        <option value="review">En revisión</option>
+                        <option value="interview">Entrevista</option>
+                        <option value="approved">Aprobado</option>
+                        <option value="rejected">Rechazado</option>
+                    </select>
+                </div>
+            </div>
+            <div class="filter-group">
+                <label class="filter-label">Fecha de aplicación</label>
+                <div class="input-with-icon">
+                    <span class="input-icon">📅</span>
+                    <select class="filter-input" id="dateFilterApp">
+                        <option value="">Todas las fechas</option>
+                        <option value="today">Hoy</option>
+                        <option value="week">Esta semana</option>
+                        <option value="month">Este mes</option>
+                        <option value="older">Más antiguas</option>
+                    </select>
+                </div>
+            </div>
+            <button class="filter-button" onclick="filterApplications()">Aplicar Filtros</button>
+        </div>
+
+        <!-- Applications Area -->
+        <div class="results-area">
+            <div class="results-header">
+                <h3 class="results-title">Mis Aplicaciones</h3>
+                <p class="results-count" id="applicationsCount">23 aplicaciones encontradas</p>
+            </div>
+            <div class="results-container" id="applicationsContainer">
+                <!-- Application Cards will be inserted here -->
+            </div>
+            <div class="loading" id="applicationsLoading">
+                <div class="spinner"></div>
+                <p>Cargando aplicaciones...</p>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- Settings View -->
 <div class="view-section" id="settingsView">
-<div class="results-area">
-<div class="results-header">
-<h3 class="results-title">Configuración</h3>
-<p class="results-count">Ajustes de la aplicación</p>
-</div>
-</div>
-</div>
-<!-- Graduates View -->
-<div class="view-section" id="graduatesView">
-<div class="results-area">
-<div class="results-header">
-<h3 class="results-title">Graduados</h3>
-<p class="results-count">Listado de graduados</p>
-</div>
-</div>
+    <div class="content-wrapper">
+        <!-- Settings Panel -->
+        <div class="filters-panel">
+            <div class="filters-header">
+                <span>⚙️</span>
+                <h3 class="filters-title">Ajustes</h3>
+            </div>
+            
+            <div class="settings-categories">
+                <div class="settings-category active" data-category="account">
+                    <span class="category-icon">👤</span>
+                    <span class="category-name">Cuenta</span>
+                </div>
+                <div class="settings-category" data-category="notifications">
+                    <span class="category-icon">🔔</span>
+                    <span class="category-name">Notificaciones</span>
+                </div>
+                <div class="settings-category" data-category="privacy">
+                    <span class="category-icon">🔒</span>
+                    <span class="category-name">Privacidad</span>
+                </div>
+                <div class="settings-category" data-category="appearance">
+                    <span class="category-icon">🎨</span>
+                    <span class="category-name">Apariencia</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Content Area -->
+        <div class="results-area">
+            <div class="results-header">
+                <h3 class="results-title" id="settingsTitle">Configuración de Cuenta</h3>
+                <p class="results-count" id="settingsSubtitle">Gestiona tu información personal</p>
+            </div>
+            
+            <div class="results-container" id="settingsContainer">
+                <!-- Account Settings -->
+                <div class="settings-content active" id="accountSettings">
+                    <div class="settings-group">
+                        <h4 class="settings-group-title">Información Personal</h4>
+                        <div class="form-group">
+                            <label for="settingsName">Nombre completo</label>
+                            <input class="form-input" id="settingsName" type="text" value="Juan Pérez">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsEmail">Correo electrónico</label>
+                            <input class="form-input" id="settingsEmail" type="email" value="juan.perez@ejemplo.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsPhone">Teléfono</label>
+                            <input class="form-input" id="settingsPhone" type="tel" value="+34 612 345 678">
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h4 class="settings-group-title">Cambio de Contraseña</h4>
+                        <div class="form-group">
+                            <label for="currentPassword">Contraseña actual</label>
+                            <input class="form-input" id="currentPassword" type="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">Nueva contraseña</label>
+                            <input class="form-input" id="newPassword" type="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirmar nueva contraseña</label>
+                            <input class="form-input" id="confirmPassword" type="password">
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h4 class="settings-group-title">Preferencias de Idioma</h4>
+                        <div class="form-group">
+                            <label for="language">Idioma de la aplicación</label>
+                            <select class="form-select" id="language">
+                                <option value="es" selected>Español</option>
+                                <option value="en">English</option>
+                                <option value="fr">Français</option>
+                                <option value="de">Deutsch</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="filter-button" onclick="saveAccountSettings()">Guardar Cambios</button>
+                </div>
+                
+                <!-- Notifications Settings -->
+                <div class="settings-content" id="notificationsSettings">
+                    <div class="settings-group">
+                        <h4 class="settings-group-title">Preferencias de Notificaciones</h4>
+                        
+                        <div class="toggle-setting">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Notificaciones por email</span>
+                                <span class="toggle-description">Recibe notificaciones importantes por correo electrónico</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="toggle-setting">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Alertas de nuevas ofertas</span>
+                                <span class="toggle-description">Notificaciones cuando haya trabajos que coincidan con tu perfil</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="toggle-setting">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Actualizaciones de aplicaciones</span>
+                                <span class="toggle-description">Notificaciones sobre el estado de tus postulaciones</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="toggle-setting">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Noticias y consejos</span>
+                                <span class="toggle-description">Recibe consejos para mejorar tu perfil y oportunidades</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h4 class="settings-group-title">Frecuencia de Notificaciones</h4>
+                        <div class="form-group">
+                            <label for="notificationFrequency">Frecuencia de resúmenes</label>
+                            <select class="form-select" id="notificationFrequency">
+                                <option value="daily">Diariamente</option>
+                                <option value="weekly" selected>Semanalmente</option>
+                                <option value="monthly">Mensualmente</option>
+                                <option value="never">Nunca</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button class="filter-button" onclick="saveNotificationSettings()">Guardar Preferencias</button>
+                </div>
+                
+                <!-- Privacy Settings -->
+                <div class="settings-content" id="privacySettings">
+                    <div class="settings-group">
+                        <h4 class="settings-group-title">Privacidad del Perfil</h4>
+                        
+                        <div class="toggle-setting">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Perfil visible para empresas</span>
+                                <span class="toggle-description">Permite que las empresas vean tu perfil y te contacten</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="toggle-setting">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Mostrar perfil en búsquedas</span>
+                                <span class="toggle-description">Aparecer en los resultados de búsqueda de reclutadores</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        
+                        <div class="toggle-setting">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Compartir información con partners</span>
+                                <span class="toggle-description">Permitir que empresas asociadas vean tu perfil (opcional)</span>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h4 class="settings-group-title">Datos y Privacidad</h4>
+                        
+                        <div class="privacy-option">
+                            <span class="privacy-title">Descargar tus datos</span>
+                            <span class="privacy-description">Solicita una copia de toda la información que tenemos sobre ti</span>
+                            <button class="privacy-button" onclick="downloadData()">Solicitar descarga</button>
+                        </div>
+                        
+                        <div class="privacy-option">
+                            <span class="privacy-title">Eliminar cuenta</span>
+                            <span class="privacy-description">Elimina permanentemente tu cuenta y todos tus datos</span>
+                            <button class="privacy-button danger" onclick="deleteAccount()">Eliminar cuenta</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Appearance Settings -->
+                <div class="settings-content" id="appearanceSettings">
+                    <div class="settings-group">
+                        <h4 class="settings-group-title">Tema de la Aplicación</h4>
+                        
+                        <div class="theme-options">
+                            <div class="theme-option active" data-theme="light">
+                                <div class="theme-preview light-theme"></div>
+                                <span class="theme-name">Claro</span>
+                            </div>
+                            
+                            <div class="theme-option" data-theme="dark">
+                                <div class="theme-preview dark-theme"></div>
+                                <span class="theme-name">Oscuro</span>
+                            </div>
+                            
+                            <div class="theme-option" data-theme="auto">
+                                <div class="theme-preview auto-theme"></div>
+                                <span class="theme-name">Automático</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-group">
+                        <h4 class="settings-group-title">Densidad de Información</h4>
+                        
+                        <div class="density-options">
+                            <div class="density-option active" data-density="comfortable">
+                                <span class="density-name">Cómoda</span>
+                                <span class="density-description">Más espacio entre elementos</span>
+                            </div>
+                            
+                            <div class="density-option" data-density="compact">
+                                <span class="density-name">Compacta</span>
+                                <span class="density-description">Más información en pantalla</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="filter-button" onclick="saveAppearanceSettings()">Aplicar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </div>
 <script>
@@ -2892,6 +3722,405 @@
         function showApproved() {
             alert("Funcionalidad de empleos aprobados pendiente de implementar.");
         }
+        // Mock data for applications
+const applications = [
+    {
+        id: 1,
+        jobId: 1,
+        title: "Desarrollador Frontend React",
+        company: "TechCorp",
+        location: "Madrid, España",
+        status: "approved",
+        appliedDate: "2023-10-15",
+        lastUpdate: "2023-10-20",
+        salary: "45,000 - 60,000 €",
+        notes: "Segunda entrevista programada para el 25 de octubre.",
+        contact: "María López - RRHH",
+        nextStep: "Entrevista técnica",
+        timeline: [
+            { date: "2023-10-15", action: "Aplicación enviada", status: "completed" },
+            { date: "2023-10-18", action: "Primera entrevista", status: "completed" },
+            { date: "2023-10-25", action: "Entrevista técnica", status: "scheduled" }
+        ]
+    },
+    {
+        id: 2,
+        jobId: 3,
+        title: "Data Scientist",
+        company: "DataFlow",
+        location: "Valencia, España",
+        status: "interview",
+        appliedDate: "2023-10-10",
+        lastUpdate: "2023-10-12",
+        salary: "55,000 - 75,000 €",
+        notes: "Esperando respuesta después de la entrevista inicial.",
+        contact: "Carlos Mendoza - Team Lead",
+        nextStep: "Feedback entrevista",
+        timeline: [
+            { date: "2023-10-10", action: "Aplicación enviada", status: "completed" },
+            { date: "2023-10-12", action: "Entrevista inicial", status: "completed" }
+        ]
+    },
+    {
+        id: 3,
+        jobId: 4,
+        title: "Product Manager",
+        company: "InnovateTech",
+        location: "Sevilla, España",
+        status: "pending",
+        appliedDate: "2023-10-22",
+        lastUpdate: "2023-10-22",
+        salary: "60,000 - 80,000 €",
+        notes: "Aplicación enviada, esperando primera respuesta.",
+        contact: "",
+        nextStep: "Primer contacto",
+        timeline: [
+            { date: "2023-10-22", action: "Aplicación enviada", status: "completed" }
+        ]
+    },
+    {
+        id: 4,
+        jobId: 2,
+        title: "Diseñador UX/UI Senior",
+        company: "Creative Studio",
+        location: "Barcelona, España",
+        status: "rejected",
+        appliedDate: "2023-10-05",
+        lastUpdate: "2023-10-08",
+        salary: "50,000 - 70,000 €",
+        notes: "Perfil no coincide con lo buscado para esta posición.",
+        contact: "Ana Torres - Diseño",
+        nextStep: "",
+        timeline: [
+            { date: "2023-10-05", action: "Aplicación enviada", status: "completed" },
+            { date: "2023-10-08", action: "Rechazado", status: "completed" }
+        ]
+    }
+];
+
+// Application status configuration
+const statusConfig = {
+    pending: { text: "Pendiente", color: "#f59e0b", icon: "⏳" },
+    review: { text: "En revisión", color: "#3b82f6", icon: "📋" },
+    interview: { text: "Entrevista", color: "#8b5cf6", icon: "💼" },
+    approved: { text: "Aprobado", color: "#10b981", icon: "✅" },
+    rejected: { text: "Rechazado", color: "#ef4444", icon: "❌" }
+};
+
+let filteredApplications = [];
+
+// Initialize applications
+document.addEventListener('DOMContentLoaded', function() {
+    renderApplications(applications);
+    setupApplicationFilters();
+});
+
+function setupApplicationFilters() {
+    document.getElementById('applicationSearch').addEventListener('input', debounce(filterApplications, 300));
+    document.getElementById('statusFilterApp').addEventListener('change', filterApplications);
+    document.getElementById('dateFilterApp').addEventListener('change', filterApplications);
+}
+
+function filterApplications() {
+    const searchTerm = document.getElementById('applicationSearch').value.toLowerCase();
+    const status = document.getElementById('statusFilterApp').value;
+    const dateFilter = document.getElementById('dateFilterApp').value;
+
+    filteredApplications = applications.filter(app => {
+        const matchesSearch = !searchTerm || 
+            app.title.toLowerCase().includes(searchTerm) ||
+            app.company.toLowerCase().includes(searchTerm);
+        
+        const matchesStatus = !status || app.status === status;
+        const matchesDate = checkApplicationDate(app.appliedDate, dateFilter);
+
+        return matchesSearch && matchesStatus && matchesDate;
+    });
+
+    renderApplications(filteredApplications);
+}
+
+function checkApplicationDate(appliedDate, filter) {
+    if (!filter) return true;
+    
+    const now = new Date();
+    const appDate = new Date(appliedDate);
+    
+    switch(filter) {
+        case 'today':
+            return appDate.toDateString() === now.toDateString();
+        case 'week':
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            return appDate >= weekAgo;
+        case 'month':
+            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            return appDate >= monthAgo;
+        case 'older':
+            const monthAgo2 = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            return appDate < monthAgo2;
+        default:
+            return true;
+    }
+}
+
+function renderApplications(appsToRender) {
+    const container = document.getElementById('applicationsContainer');
+    const countElement = document.getElementById('applicationsCount');
+    
+    if (!container || !countElement) return;
+    
+    countElement.textContent = `${appsToRender.length} aplicaciones encontradas`;
+    
+    if (appsToRender.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <div class="empty-icon">📝</div>
+                <h3 class="empty-title">No hay aplicaciones</h3>
+                <p class="empty-description">
+                    No se encontraron aplicaciones que coincidan con tus filtros.
+                </p>
+                <button class="empty-action" onclick="clearApplicationFilters()">
+                    Limpiar Filtros
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = appsToRender.map(app => {
+        const status = statusConfig[app.status];
+        return `
+            <div class="job-card application-card" data-application-id="${app.id}">
+                <div class="job-header">
+                    <div class="job-info">
+                        <h4 class="job-title">${app.title}</h4>
+                        <p class="job-company">${app.company}</p>
+                        <div class="job-details">
+                            <div class="job-detail">
+                                <span>📍</span>
+                                <span>${app.location}</span>
+                            </div>
+                            <div class="job-detail">
+                                <span>💰</span>
+                                <span>${app.salary}</span>
+                            </div>
+                            <div class="job-detail status-badge" style="background-color: ${status.color}20; color: ${status.color}; border: 1px solid ${status.color}50;">
+                                <span>${status.icon}</span>
+                                <span>${status.text}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="application-details">
+                    <div class="application-meta">
+                        <div class="meta-item">
+                            <span class="meta-label">Aplicado:</span>
+                            <span class="meta-value">${formatDate(app.appliedDate)}</span>
+                        </div>
+                        <div class="meta-item">
+                            <span class="meta-label">Última actualización:</span>
+                            <span class="meta-value">${formatDate(app.lastUpdate)}</span>
+                        </div>
+                        ${app.contact ? `
+                        <div class="meta-item">
+                            <span class="meta-label">Contacto:</span>
+                            <span class="meta-value">${app.contact}</span>
+                        </div>
+                        ` : ''}
+                        ${app.nextStep ? `
+                        <div class="meta-item">
+                            <span class="meta-label">Próximo paso:</span>
+                            <span class="meta-value">${app.nextStep}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    ${app.notes ? `
+                    <div class="application-notes">
+                        <h5>Notas:</h5>
+                        <p>${app.notes}</p>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="application-timeline">
+                        <h5>Historial:</h5>
+                        <div class="timeline">
+                            ${app.timeline.map(event => `
+                                <div class="timeline-event">
+                                    <div class="event-date">${formatDate(event.date)}</div>
+                                    <div class="event-content">
+                                        <div class="event-action">${event.action}</div>
+                                        <div class="event-status ${event.status}">${event.status === 'completed' ? 'Completado' : 'Programado'}</div>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="job-footer">
+                    <button class="action-btn" onclick="viewJobDetails(${app.jobId})">Ver Publicación</button>
+                    <button class="action-btn" onclick="addApplicationNote(${app.id})">Agregar Nota</button>
+                    <button class="action-btn danger" onclick="withdrawApplication(${app.id})">Retirar Aplicación</button>
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function clearApplicationFilters() {
+    document.getElementById('applicationSearch').value = '';
+    document.getElementById('statusFilterApp').value = '';
+    document.getElementById('dateFilterApp').value = '';
+    filterApplications();
+}
+
+function viewJobDetails(jobId) {
+    alert(`Funcionalidad para ver detalles del trabajo #${jobId} pendiente de implementar.`);
+}
+
+function addApplicationNote(appId) {
+    const note = prompt('Agregar nota para esta aplicación:');
+    if (note) {
+        alert(`Nota agregada para la aplicación #${appId}.`);
+    }
+}
+
+function withdrawApplication(appId) {
+    if (confirm('¿Estás seguro de que quieres retirar esta aplicación?')) {
+        alert(`Aplicación #${appId} retirada.`);
+        // En una implementación real, aquí se actualizaría el estado en el backend
+        filterApplications();
+    }
+}
+// Settings functionality
+function initSettings() {
+    // Category click handlers
+    const categories = document.querySelectorAll('.settings-category');
+    categories.forEach(category => {
+        category.addEventListener('click', function() {
+            const categoryName = this.getAttribute('data-category');
+            
+            // Update active category
+            categories.forEach(cat => cat.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Show corresponding content
+            document.querySelectorAll('.settings-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(categoryName + 'Settings').classList.add('active');
+            
+            // Update title and subtitle
+            updateSettingsTitle(categoryName);
+        });
+    });
+    
+    // Initialize theme options
+    const themeOptions = document.querySelectorAll('.theme-option');
+    themeOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const theme = this.getAttribute('data-theme');
+            
+            themeOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            
+            // In a real app, this would change the actual theme
+            console.log('Theme changed to:', theme);
+        });
+    });
+    
+    // Initialize density options
+    const densityOptions = document.querySelectorAll('.density-option');
+    densityOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const density = this.getAttribute('data-density');
+            
+            densityOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            
+            console.log('Density changed to:', density);
+        });
+    });
+    
+    // Initialize text size options
+    const textSizeOptions = document.querySelectorAll('.text-size-option');
+    textSizeOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const size = this.getAttribute('data-size');
+            
+            textSizeOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            
+            console.log('Text size changed to:', size);
+        });
+    });
+    
+    // Initialize color options
+    const colorOptions = document.querySelectorAll('.color-option');
+    colorOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const color = this.getAttribute('data-color');
+            
+            colorOptions.forEach(opt => opt.classList.remove('active'));
+            this.classList.add('active');
+            
+            console.log('Color theme changed to:', color);
+        });
+    });
+}
+
+function updateSettingsTitle(category) {
+    const titles = {
+        'account': 'Configuración de Cuenta',
+        'notifications': 'Preferencias de Notificaciones',
+        'privacy': 'Privacidad y Seguridad',
+        'appearance': 'Apariencia de la Aplicación'
+    };
+    
+    const subtitles = {
+        'account': 'Gestiona tu información personal',
+        'notifications': 'Controla cómo y cuándo recibir notificaciones',
+        'privacy': 'Configura tu privacidad y datos',
+        'appearance': 'Personaliza la apariencia de JobFinder'
+    };
+    
+    document.getElementById('settingsTitle').textContent = titles[category];
+    document.getElementById('settingsSubtitle').textContent = subtitles[category];
+}
+
+function saveAccountSettings() {
+    alert('Configuración de cuenta guardada correctamente');
+}
+
+function saveNotificationSettings() {
+    alert('Preferencias de notificaciones guardadas');
+}
+
+function saveAppearanceSettings() {
+    alert('Preferencias de apariencia aplicadas');
+}
+
+function downloadData() {
+    alert('Solicitud de descarga de datos enviada. Recibirás un email cuando esté lista.');
+}
+
+function deleteAccount() {
+    if (confirm('¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.')) {
+        alert('Solicitud de eliminación de cuenta recibida. Te contactaremos para confirmar.');
+    }
+}
+
+function exportResume(format) {
+    alert(`Exportando currículum en formato ${format.toUpperCase()}`);
+}
+
+// Initialize settings when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initSettings();
+});
+
     </script>
 </body>
 </html>
