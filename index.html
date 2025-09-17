@@ -941,6 +941,13 @@ input:checked + .slider:before {
             color: #64748b;
             font-size: 14px;
         }
+        
+        /* Specific style for status badge within job-detail */
+        .job-detail.status-badge {
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
 
         .job-actions {
             display: flex;
@@ -1204,6 +1211,7 @@ input:checked + .slider:before {
             margin: 0 auto 20px;
             cursor: pointer;
             transition: all 0.2s;
+            overflow: hidden; /* Para que la imagen no se salga */
         }
 
         .photo-preview:hover {
@@ -1215,6 +1223,12 @@ input:checked + .slider:before {
             width: 40px;
             height: 40px;
             fill: #9ca3af;
+        }
+
+        .photo-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .upload-btn {
@@ -2142,7 +2156,6 @@ input:checked + .slider:before {
     </style>
 </head>
 <body>
-<!-- Sidebar -->
 <div class="sidebar">
 <div class="sidebar-header">
 <div class="sidebar-brand">
@@ -2185,15 +2198,13 @@ input:checked + .slider:before {
 <span>Ofertas postuladas</span>
 </div>
 </div>
-<!-- Botón de Reportes -->
 <div class="nav-item" data-view="reports">
     <div class="nav-item-content">
         <span>📊</span>
         <span>Reportes</span>
     </div>
 </div>
-  <!-- Botón de Configuración movido al final -->
-    <div class="nav-item" data-view="settings">
+  <div class="nav-item" data-view="settings">
         <div class="nav-item-content">
             <span>⚙️</span>
             <span>Configuración</span>
@@ -2201,7 +2212,6 @@ input:checked + .slider:before {
     </div>
 </div>
 </div>
-<!-- Main Content -->
 <div class="main-content">
 <div class="main-header">
 <div class="header-content">
@@ -2212,10 +2222,8 @@ input:checked + .slider:before {
 <div class="header-user">👤</div>
 </div>
 </div>
-<!-- Search View -->
 <div class="view-section active" id="searchView">
 <div class="content-wrapper">
-<!-- Filters Panel -->
 <div class="filters-panel">
 <div class="filters-header">
 <span>🔧</span>
@@ -2268,15 +2276,14 @@ input:checked + .slider:before {
 </div>
 </div>
 <button class="filter-button" onclick="applyFilters()">Aplicar Filtros</button>
+<button class="filter-button" onclick="clearSearchFilters()" style="background: #64748b; margin-top: 10px;">Mostrar Todas</button>
 </div>
-<!-- Results Area -->
 <div class="results-area">
 <div class="results-header">
 <h3 class="results-title">Resultados de búsqueda</h3>
 <p class="results-count" id="resultsCount">4 ofertas encontradas</p>
 </div>
 <div class="results-container" id="resultsContainer">
-<!-- Job Cards will be inserted here -->
 </div>
 <div class="loading" id="loading">
 <div class="spinner"></div>
@@ -2285,13 +2292,10 @@ input:checked + .slider:before {
 </div>
 </div>
 </div>
-<!-- Profile View -->
 <div class="view-section" id="profileView">
 <div class="profile-section">
 <div class="profile-content">
-<!-- Profile Form -->
 <div class="profile-form">
-<!-- Personal Information -->
 <div class="form-section">
 <h3>
 <svg viewbox="0 0 24 24">
@@ -2334,7 +2338,6 @@ input:checked + .slider:before {
 <textarea class="form-textarea" id="resumen" placeholder="Describe tu experiencia y objetivos profesionales..."></textarea>
 </div>
 </div>
-<!-- Academic Information -->
 <div class="form-section">
 <h3>
 <svg viewbox="0 0 24 24">
@@ -2384,7 +2387,6 @@ input:checked + .slider:before {
 </div>
 </div>
 </div>
-<!-- Work Experience -->
 <div class="form-section">
 <h3>
 <svg viewbox="0 0 24 24">
@@ -2392,6 +2394,7 @@ input:checked + .slider:before {
 </svg>
                                 Experiencias Laborales
                             </h3>
+<div id="experienceContainer">
 <div class="experience-card">
 <div class="experience-header">
 <div>
@@ -2416,11 +2419,11 @@ input:checked + .slider:before {
                                     Desarrollo completo de plataforma web, desde el frontend hasta la base de datos, usando tecnologías modernas.
                                 </p>
 </div>
-<button class="add-experience-btn">+ Agregar Experiencia Laboral</button>
+</div>
+<button class="add-experience-btn" onclick="addExperience()">+ Agregar Experiencia Laboral</button>
 </div>
 <button class="save-btn">Guardar Perfil</button>
 </div>
-<!-- Photo Upload -->
 <div class="photo-upload">
 <h3>
 <svg viewbox="0 0 24 24">
@@ -2428,21 +2431,20 @@ input:checked + .slider:before {
 </svg>
                             Foto de Perfil
                         </h3>
-<div class="photo-preview">
+<div class="photo-preview" id="photoPreview">
 <svg viewbox="0 0 24 24">
 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
 </svg>
 </div>
-<button class="upload-btn">Subir Foto</button>
+<input type="file" id="photoInput" accept="image/*" style="display: none;">
+<button class="upload-btn" id="uploadBtn">Subir Foto</button>
 <p class="upload-note">JPG, PNG o GIF. Máximo 5MB.<br/>Recomendado: 300x300px</p>
 </div>
 </div>
 </div>
 </div>
-<!-- Dashboard View -->
 <div class="view-section" id="dashboardView">
 <div class="dashboard-container">
-<!-- Statistics Cards -->
 <div class="stats-grid">
 <div class="stat-card">
 <div class="stat-header">
@@ -2493,7 +2495,6 @@ input:checked + .slider:before {
 <div class="stat-change positive">+8 este mes</div>
 </div>
 </div>
-<!-- Progress Section -->
 <div class="progress-section">
 <div class="section-header">
 <h3 class="section-title">
@@ -2528,9 +2529,7 @@ input:checked + .slider:before {
 </div>
 </div>
 </div>
-<!-- Content Grid -->
 <div class="content-grid">
-<!-- Recent Activity -->
 <div class="activity-section">
 <div class="section-header">
 <h3 class="section-title">
@@ -2578,7 +2577,6 @@ input:checked + .slider:before {
 </div>
 </div>
 </div>
-<!-- Quick Actions -->
 <div class="actions-section">
 <div class="section-header">
 <h3 class="section-title">
@@ -2629,7 +2627,6 @@ input:checked + .slider:before {
 </div>
 </div>
 </div>
-<!-- Recommendations -->
 <div class="recommendations-section">
 <div class="section-header">
 <h3 class="section-title">
@@ -2661,17 +2658,14 @@ input:checked + .slider:before {
 <div class="recommendation-card">
 <div class="recommendation-title">Nuevas ofertas que te podrían interesar</div>
 </div></div></div></div></div>
-<!-- Favorites View -->
 <div class="view-section" id="favoritesView">
 <div class="favorites-content">
-    <!-- Filters Panel -->
     <div class="favorites-filters">
         <div class="filters-header">
             <span>🎯</span>
             <h3 class="filters-title">Filtros</h3>
         </div>
 
-        <!-- Stats -->
         <div class="favorites-stats">
             <div class="stats-item">
                 <span class="stats-label">Total favoritos:</span>
@@ -2687,7 +2681,6 @@ input:checked + .slider:before {
             </div>
         </div>
 
-        <!-- Filters -->
         <div class="filter-group">
             <label class="filter-label">Buscar en favoritos</label>
             <input class="filter-input" id="searchFavorites" placeholder="Título, empresa..." type="text"/>
@@ -2735,7 +2728,6 @@ input:checked + .slider:before {
             </select>
         </div>
 
-        <!-- Bulk Actions -->
         <div class="bulk-actions">
             <button class="bulk-action-btn" onclick="applyToSelected()">Aplicar a seleccionados</button>
             <button class="bulk-action-btn" onclick="exportFavorites()">Exportar lista</button>
@@ -2743,7 +2735,6 @@ input:checked + .slider:before {
         </div>
     </div>
 
-    <!-- Favorites List -->
     <div class="favorites-list">
         <div class="list-header">
             <div>
@@ -2768,16 +2759,12 @@ input:checked + .slider:before {
         </div>
 
         <div id="favoritesList">
-            <!-- Job cards will be rendered here -->
-        </div>
+            </div>
     </div>
 </div>
 </div>
-<!-- Applications View -->
-<!-- Applications View -->
 <div class="view-section" id="applicationsView">
     <div class="content-wrapper">
-        <!-- Filters Panel -->
         <div class="filters-panel">
             <div class="filters-header">
                 <span>🔧</span>
@@ -2820,15 +2807,13 @@ input:checked + .slider:before {
             <button class="filter-button" onclick="filterApplications()">Aplicar Filtros</button>
         </div>
 
-        <!-- Applications Area -->
         <div class="results-area">
             <div class="results-header">
                 <h3 class="results-title">Mis Postulaciones</h3>
                 <p class="results-count" id="applicationsCount">23 postulaciones encontradas</p>
             </div>
             <div class="results-container" id="applicationsContainer">
-                <!-- Application Cards will be inserted here -->
-            </div>
+                </div>
             <div class="loading" id="applicationsLoading">
                 <div class="spinner"></div>
                 <p>Cargando postulaciones...</p>
@@ -2836,8 +2821,6 @@ input:checked + .slider:before {
         </div>
     </div>
 </div>
-<!-- Reports View -->
-<!-- Vista de Reportes -->
 <div class="view-section" id="reportsView">
     <div class="dashboard-container">
         <div class="section-header" style="margin-bottom: 30px;">
@@ -2845,7 +2828,6 @@ input:checked + .slider:before {
         </div>
 
         <div class="content-grid">
-            <!-- Panel de Generación de Reportes -->
             <div class="activity-section">
                 <div class="section-header">
                     <h3 class="section-title">Generar reportes</h3>
@@ -2862,7 +2844,6 @@ input:checked + .slider:before {
                     </select>
                 </div>
 
-                <!-- Filtros (inicialmente ocultos) -->
                 <div id="filtersSection" style="display: none;">
                     <div class="section-header">
                         <h3 class="section-title">Aplicar filtros</h3>
@@ -2910,7 +2891,6 @@ input:checked + .slider:before {
                 </div>
             </div>
 
-            <!-- Panel de Vista Previa -->
             <div class="actions-section">
                 <div class="section-header">
                     <h3 class="section-title">Vista previa</h3>
@@ -2941,7 +2921,6 @@ input:checked + .slider:before {
             </div>
         </div>
 
-        <!-- Sección de Administrador -->
         <div class="progress-section" style="margin-top: 30px;">
             <div class="section-header">
                 <h3 class="section-title">Administrador</h3>
@@ -2967,10 +2946,8 @@ input:checked + .slider:before {
         </div>
     </div>
 </div>
-<!-- Settings View -->
 <div class="view-section" id="settingsView">
     <div class="content-wrapper">
-        <!-- Settings Panel -->
         <div class="filters-panel">
             <div class="filters-header">
                 <span>⚙️</span>
@@ -2997,7 +2974,6 @@ input:checked + .slider:before {
             </div>
         </div>
 
-        <!-- Settings Content Area -->
         <div class="results-area">
             <div class="results-header">
                 <h3 class="results-title" id="settingsTitle">Configuración de Cuenta</h3>
@@ -3005,7 +2981,6 @@ input:checked + .slider:before {
             </div>
             
             <div class="results-container" id="settingsContainer">
-                <!-- Account Settings -->
                 <div class="settings-content active" id="accountSettings">
                     <div class="settings-group">
                         <h4 class="settings-group-title">Información Personal</h4>
@@ -3055,7 +3030,6 @@ input:checked + .slider:before {
                     <button class="filter-button" onclick="saveAccountSettings()">Guardar Cambios</button>
                 </div>
                 
-                <!-- Notifications Settings -->
                 <div class="settings-content" id="notificationsSettings">
                     <div class="settings-group">
                         <h4 class="settings-group-title">Preferencias de Notificaciones</h4>
@@ -3121,7 +3095,6 @@ input:checked + .slider:before {
                     <button class="filter-button" onclick="saveNotificationSettings()">Guardar Preferencias</button>
                 </div>
                 
-                <!-- Privacy Settings -->
                 <div class="settings-content" id="privacySettings">
                     <div class="settings-group">
                         <h4 class="settings-group-title">Privacidad del Perfil</h4>
@@ -3177,7 +3150,6 @@ input:checked + .slider:before {
                     </div>
                 </div>
                 
-                <!-- Appearance Settings -->
                 <div class="settings-content" id="appearanceSettings">
                     <div class="settings-group">
                         <h4 class="settings-group-title">Tema de la Aplicación</h4>
@@ -3313,7 +3285,34 @@ input:checked + .slider:before {
             document.getElementById('locationFilterFav').addEventListener('change', filterFavorites);
             document.getElementById('contractFilterFav').addEventListener('change', filterFavorites);
             document.getElementById('dateFilter').addEventListener('change', filterFavorites);
+
+            // =======================================================
+            // ===           INICIO DE NUEVA IMPLEMENTACIÓN          ===
+            // =======================================================
+
+            const uploadBtn = document.getElementById('uploadBtn');
+            const photoInput = document.getElementById('photoInput');
+            const photoPreview = document.getElementById('photoPreview');
+
+            uploadBtn.addEventListener('click', () => {
+                photoInput.click();
+            });
+
+            photoInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        photoPreview.innerHTML = `<img src="${e.target.result}" alt="Foto de perfil">`;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            // =======================================================
+            // ===            FIN DE NUEVA IMPLEMENTACIÓN            ===
+            // =======================================================
         }
+
 
         function setupNavigation() {
             const navItems = document.querySelectorAll('.nav-item[data-view]');
@@ -3695,7 +3694,7 @@ input:checked + .slider:before {
             const diffTime = Math.abs(now - jobDate);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
             
-            if (diffDays === 1) return 'Hace 1 día';
+            if (diffDays <= 1) return 'Hace 1 día';
             if (diffDays < 7) return `Hace ${diffDays} días`;
             if (diffDays < 30) return `Hace ${Math.floor(diffDays / 7)} semanas`;
             return jobDate.toLocaleDateString('es-ES');
@@ -3883,24 +3882,47 @@ input:checked + .slider:before {
                     alert('¡Perfil guardado exitosamente!');
                 });
             }
-
-            // Photo upload functionality
-            const uploadBtn = document.querySelector('.upload-btn');
-            if (uploadBtn) {
-                uploadBtn.addEventListener('click', function() {
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = 'image/*';
-                    input.onchange = function(e) {
-                        const file = e.target.files[0];
-                        if (file) {
-                            alert(`Foto "${file.name}" seleccionada. Funcionalidad de carga pendiente de implementar.`);
-                        }
-                    };
-                    input.click();
-                });
-            }
         });
+
+        // =======================================================
+        // ===           INICIO DE NUEVA IMPLEMENTACIÓN          ===
+        // =======================================================
+        function addExperience() {
+            const title = prompt("Puesto de trabajo:");
+            if (!title) return;
+
+            const company = prompt("Empresa:");
+            if (!company) return;
+            
+            const date = prompt("Fechas (ej: 2022 - Presente):");
+            if (!date) return;
+            
+            const description = prompt("Descripción de tus responsabilidades:");
+            if (!description) return;
+
+            const experienceContainer = document.getElementById('experienceContainer');
+            
+            const newExperienceHTML = `
+                <div class="experience-card">
+                    <div class="experience-header">
+                        <div>
+                            <div class="experience-title">${title}</div>
+                            <div class="experience-company">${company}</div>
+                        </div>
+                        <div class="experience-date">${date}</div>
+                    </div>
+                    <p style="color: #64748b; font-size: 14px; margin-top: 8px;">
+                        ${description}
+                    </p>
+                </div>
+            `;
+            
+            experienceContainer.insertAdjacentHTML('beforeend', newExperienceHTML);
+        }
+        // =======================================================
+        // ===            FIN DE NUEVA IMPLEMENTACIÓN            ===
+        // =======================================================
+
 
         function showApplications() {
             alert("Funcionalidad de aplicaciones pendiente de implementar.");
@@ -3995,6 +4017,7 @@ const statusConfig = {
 };
 
 let filteredApplications = [];
+let expandedApplications = new Set(); // <<<=== NUEVO: Para controlar qué tarjetas de postulación están expandidas
 
 // Initialize applications
 document.addEventListener('DOMContentLoaded', function() {
@@ -4050,21 +4073,27 @@ function checkApplicationDate(appliedDate, filter) {
     }
 }
 
+
+// =======================================================
+// ===               INICIO DE LA MODIFICACIÓN               ===
+// =======================================================
+
+// === FUNCIÓN MODIFICADA: renderApplications() ===
 function renderApplications(appsToRender) {
     const container = document.getElementById('applicationsContainer');
     const countElement = document.getElementById('applicationsCount');
     
     if (!container || !countElement) return;
     
-    countElement.textContent = `${appsToRender.length} aplicaciones encontradas`;
+    countElement.textContent = `${appsToRender.length} postulaciones encontradas`;
     
     if (appsToRender.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
                 <div class="empty-icon">📝</div>
-                <h3 class="empty-title">No hay aplicaciones</h3>
+                <h3 class="empty-title">No hay postulaciones</h3>
                 <p class="empty-description">
-                    No se encontraron aplicaciones que coincidan con tus filtros.
+                    No se encontraron postulaciones que coincidan con tus filtros o aún no has aplicado a ninguna oferta.
                 </p>
                 <button class="empty-action" onclick="clearApplicationFilters()">
                     Limpiar Filtros
@@ -4076,8 +4105,11 @@ function renderApplications(appsToRender) {
 
     container.innerHTML = appsToRender.map(app => {
         const status = statusConfig[app.status];
+        const originalJob = jobs.find(j => j.id === app.jobId);
+        const description = originalJob ? originalJob.description : "Descripción original no disponible.";
+
         return `
-            <div class="job-card application-card" data-application-id="${app.id}">
+            <div class="job-card">
                 <div class="job-header">
                     <div class="job-info">
                         <h4 class="job-title">${app.title}</h4>
@@ -4097,14 +4129,18 @@ function renderApplications(appsToRender) {
                             </div>
                         </div>
                     </div>
+                    <div class="job-actions">
+                         <button class="action-btn view-btn" onclick="toggleApplicationDetails(${app.id})">
+                            👁️
+                        </button>
+                    </div>
                 </div>
                 
-                <div class="application-details">
+                <p class="job-description">${description}</p>
+                
+                <div class="job-requirements ${expandedApplications.has(app.id) ? 'show' : ''}" id="app-details-${app.id}">
                     <div class="application-meta">
-                        <div class="meta-item">
-                            <span class="meta-label">Aplicado:</span>
-                            <span class="meta-value">${formatDate(app.appliedDate)}</span>
-                        </div>
+                         <h5 class="requirements-title">Detalles de la Postulación:</h5>
                         <div class="meta-item">
                             <span class="meta-label">Última actualización:</span>
                             <span class="meta-value">${formatDate(app.lastUpdate)}</span>
@@ -4122,39 +4158,45 @@ function renderApplications(appsToRender) {
                         </div>
                         ` : ''}
                     </div>
-                    
-                    ${app.notes ? `
-                    <div class="application-notes">
-                        <h5>Notas:</h5>
+                     ${app.notes ? `
+                    <div class="application-notes" style="margin-top: 15px;">
+                        <h5 class="requirements-title">Notas:</h5>
                         <p>${app.notes}</p>
                     </div>
                     ` : ''}
-                    
-                    <div class="application-timeline">
-                        <h5>Historial:</h5>
-                        <div class="timeline">
-                            ${app.timeline.map(event => `
-                                <div class="timeline-event">
-                                    <div class="event-date">${formatDate(event.date)}</div>
-                                    <div class="event-content">
-                                        <div class="event-action">${event.action}</div>
-                                        <div class="event-status ${event.status}">${event.status === 'completed' ? 'Completado' : 'Programado'}</div>
-                                    </div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
                 </div>
-                
+
                 <div class="job-footer">
-                    <button class="action-btn" onclick="viewJobDetails(${app.jobId})">Ver Publicación</button>
-                    <button class="action-btn" onclick="addApplicationNote(${app.id})">Agregar Nota</button>
-                    <button class="action-btn danger" onclick="withdrawApplication(${app.id})">Retirar Aplicación</button>
+                    <span class="job-posted">Aplicado: ${formatDate(app.appliedDate)}</span>
+                    <div class="job-actions">
+                        <button class="action-btn" onclick="viewJobDetails(${app.jobId})">Ver Publicación</button>
+                        <button class="action-btn danger" onclick="withdrawApplication(${app.id})">Retirar</button>
+                    </div>
                 </div>
             </div>
         `;
     }).join('');
 }
+
+
+// === NUEVA FUNCIÓN: toggleApplicationDetails() ===
+function toggleApplicationDetails(appId) {
+    const details = document.getElementById(`app-details-${appId}`);
+    if (details) {
+        if (expandedApplications.has(appId)) {
+            expandedApplications.delete(appId);
+            details.classList.remove('show');
+        } else {
+            expandedApplications.add(appId);
+            details.classList.add('show');
+        }
+    }
+}
+
+// =======================================================
+// ===                FIN DE LA MODIFICACIÓN                 ===
+// =======================================================
+
 
 function clearApplicationFilters() {
     document.getElementById('applicationSearch').value = '';
@@ -4163,8 +4205,29 @@ function clearApplicationFilters() {
     filterApplications();
 }
 
+
 function viewJobDetails(jobId) {
-    alert(`Funcionalidad para ver detalles del trabajo #${jobId} pendiente de implementar.`);
+    const jobToShow = jobs.find(j => j.id === jobId);
+
+    if (jobToShow) {
+        switchView('search');
+        renderJobs([jobToShow]);
+        document.getElementById('resultsCount').textContent = 'Mostrando la publicación seleccionada';
+        document.getElementById('searchInput').value = '';
+        document.getElementById('locationFilter').value = '';
+        document.getElementById('contractFilter').value = '';
+        document.getElementById('salaryFilter').value = '';
+    } else {
+        alert('No se pudo encontrar la publicación original de este trabajo.');
+    }
+}
+
+function clearSearchFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('locationFilter').value = '';
+    document.getElementById('contractFilter').value = '';
+    document.getElementById('salaryFilter').value = '';
+    applyFilters();
 }
 
 function addApplicationNote(appId) {
@@ -4177,7 +4240,6 @@ function addApplicationNote(appId) {
 function withdrawApplication(appId) {
     if (confirm('¿Estás seguro de que quieres retirar esta aplicación?')) {
         alert(`Aplicación #${appId} retirada.`);
-        // En una implementación real, aquí se actualizaría el estado en el backend
         filterApplications();
     }
 }
